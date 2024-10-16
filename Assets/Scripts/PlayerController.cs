@@ -4,8 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate void OnCoinsChangedEvent(int newAmount);
+    public static event OnCoinsChangedEvent OnCoinsChanged; 
+
     public float movementSpeed;
-    public TMP_Text scoreText;
     public TMP_Text winText;
     public GameObject wall;
 
@@ -59,11 +61,11 @@ public class PlayerController : MonoBehaviour
 
     private void SetScoreText()
     {
-        scoreText.text = "Score: " + score.ToString();
+        OnCoinsChanged(score);
 
-        if (score >= 10)
+        if (score == 3)
         {
-            winText.text = "You win! Press \'R\' to restart or \'ESC\' to quit.";
+            winText.text = "You finished in " + Timer.GetTime() + " !\n Press \'R\' to restart or \'ESC\' to quit.";
         }
     }
 }
