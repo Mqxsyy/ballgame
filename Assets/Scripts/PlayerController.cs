@@ -5,17 +5,18 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public delegate void OnCoinsChangedEvent(int newAmount);
-    public static event OnCoinsChangedEvent OnCoinsChanged; 
+    public static event OnCoinsChangedEvent OnCoinsChanged;
 
     public float movementSpeed;
     public TMP_Text winText;
-    public GameObject wall;
 
     private int score;
     private Rigidbody rb;
 
     void Start()
     {
+        OnCoinsChanged += (newAmount) => { };
+
         rb = GetComponent<Rigidbody>();
         score = 0;
         SetScoreText();
@@ -26,6 +27,12 @@ public class PlayerController : MonoBehaviour
     {
         float deltaX = Input.GetAxis("Horizontal");
         float deltaY = Input.GetAxis("Vertical");
+
+        if (deltaX != 0 || deltaY != 0)
+        {
+            Timer.hasMoved = true;
+        }
+
         Vector3 direction = new Vector3(deltaX, 0, deltaY).normalized;
         rb.AddForce(direction * movementSpeed);
 
@@ -47,11 +54,6 @@ public class PlayerController : MonoBehaviour
             collider.gameObject.SetActive(false);
             score++;
             SetScoreText();
-
-            if (score >= 5)
-            {
-                wall.SetActive(false);
-            }
         }
         else if (collider.gameObject.CompareTag("Danger"))
         {
@@ -63,9 +65,10 @@ public class PlayerController : MonoBehaviour
     {
         OnCoinsChanged(score);
 
-        if (score == 3)
+        if (score == 4)
         {
             winText.text = "You finished in " + Timer.GetTime() + " !\n Press \'R\' to restart or \'ESC\' to quit.";
+            Timer.hasWon = true;
         }
     }
 }
