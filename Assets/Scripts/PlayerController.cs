@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
         if (score == 4)
         {
+            PersonalBest.UpdateTime(Timer.GetTime());
             winText.text = "You finished in " + Timer.GetTime() + " !\n Press \'R\' to restart or \'ESC\' to quit.";
             Timer.hasWon = true;
         }

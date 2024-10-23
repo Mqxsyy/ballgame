@@ -13,7 +13,9 @@ public class Timer : MonoBehaviour
     {
         time = 0;
         timer = GetComponent<TMP_Text>();
+        
         hasMoved = false;
+        hasWon = false;
     }
 
     public void Update()
