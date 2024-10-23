@@ -13,6 +13,9 @@ public class PersonalBest : MonoBehaviour
         if (time != -1)
         {
             pbText.text = "PB: " + time;
+        } else
+        {
+            pbText.text = "PB: None";
         }
     }
 
